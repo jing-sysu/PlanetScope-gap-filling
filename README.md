@@ -8,6 +8,8 @@ Jing Wang, Calvin KF Lee, Xiaolin Zhu, Ruyin Cao, Yating Gu, Shengbiao Wu, Jin W
 "A new object-class based gap-filling method for PlanetScope satellite image time series", 
 Remote sensing of Enviroment, Accepted in 16/06/2022
 
+This code is written by Matlab
+
 The main function is "autoOCBGF_all"
 
 Example data in Dropbox:https://www.dropbox.com/sh/r6x82vsf0cg2j93/AAAEsRV9DFif4Tjb_xM1uwrfa?dl=0
