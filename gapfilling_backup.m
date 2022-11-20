@@ -1,10 +1,10 @@
 function [targ_img,adj_temp,planet_valid]=gapfilling_backup(planet_all,targ_img,adj_temp,planet_valid,num_gap,nan_prc,prc_thre,updt_cls,segm,ord_doy,date)
-mis_pixel=isnan(targ_img(:,1));
+[size1,size2]=size(updt_cls);
+[~,size3,size_day]=size(planet_all);
+mis_pixel=~(sum(targ_img>0,2)==size3);
 if sum(mis_pixel)==0
     return;
 end
-[size1,size2]=size(updt_cls);
-[~,size3,size_day]=size(planet_all);
 % calculate closest dates
 delt_date=date-date(ord_doy);
 bef_dates=[find(delt_date<0,1,'last'):-1:1,size_day:-1:find(delt_date>0,1,'first')];
@@ -22,7 +22,7 @@ befaft_delt=bef_delt.*ones(size(bef_delt,1))+aft_delt'.*ones(size(aft_delt,1));
 k=0;
 while num_gap>0 && k<length(bef_ord)
     k=k+1;i=aft_ord(k);j=bef_ord(k);
-    mis_pixel=isnan(targ_img(:,1));
+    mis_pixel=~(sum(targ_img>0,2)==size3);
     % corresponding valid pixels in adjacent dates
     aft_vid=planet_valid(:,:,aft_dates(i))>0 & planet_valid(:,:,aft_dates(i))<=2;
     bef_vid=planet_valid(:,:,bef_dates(j))>0 & planet_valid(:,:,bef_dates(j))<=2;
@@ -57,7 +57,7 @@ while num_gap>0 && k<length(bef_ord)
     % update the start condition
     num_gap=(size1*size2-sum(targ_img(:,1)>0))/(size1*size2);
     if num_gap<0.005
-        cls_misvld=isnan(targ_img(:,1));
+        cls_misvld=~(sum(targ_img>0,2)==size3);
         targ_img_mat=reshape(targ_img,size1,size2,size3);
         targ_img_mat=fillmissing(targ_img_mat,'nearest');
         targ_img=reshape(targ_img_mat,[size1*size2,size3]);

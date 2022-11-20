@@ -10,7 +10,7 @@ i=1;
 while num_gap>0 && i<=min(10,size_day-1)
     i=1+i;
     % missing pixels in the target image
-    mis_pixel=isnan(targ_img(:,1));
+    mis_pixel=~(sum(targ_img>0,2)==size3);
     % corresponding valid pixels in adjacent dates
     adj_vid=(planet_valid(:,:,adj_ord(i))>0 & planet_valid(:,:,adj_ord(i))<=2);
     target_vid=(planet_valid(:,:,ord_doy)>0 & planet_valid(:,:,ord_doy)<=2);
@@ -61,11 +61,9 @@ while num_gap>0 && i<=min(10,size_day-1)
                     ite_times=ite_times+1;
                     ind_clr=cum_area<sumcls_clrvid | ind_clr;
                     sub_clrvid=ismember(seg_clr,subclass_unmis(disrms_ord(ind_clr)));
-                    if sum(sub_clrvid)>100
                     corr_clear=corr(targ_img(sub_clrvid,:), adj_img(sub_clrvid,:),'Rows','complete');
                     meancorr_clear=mean(diag(corr_clear));
                     numcorr_clear=sum(diag(corr_clear)>=scenerio_threshold-0.05);
-                    end
                 end
                 if meancorr_clear<scenerio_threshold || numcorr_clear<size3
                     continue;
